@@ -1,0 +1,55 @@
+class ListNode:
+    def __init__(self, val=0, next=None):
+        self.val = val
+        self.next = next
+
+def find_middle(head):
+    slow, fast = head, head
+    while fast and fast.next:
+        slow = slow.next
+        fast = fast.next.next
+    return slow
+
+def reverse_list(head):
+    prev = None
+    current = head
+    while current:
+        next_node = current.next
+        current.next = prev
+        prev = current
+        current = next_node
+    return prev
+
+def merge_lists(l1, l2):
+    dummy = ListNode(-1)
+    current = dummy
+
+    while l1 and l2:
+        current.next = l1
+        l1 = l1.next
+        current = current.next
+
+        current.next = l2
+        l2 = l2.next
+        current = current.next
+
+    if l1:
+        current.next = l1
+    if l2:
+        current.next = l2
+
+    return dummy.next
+
+def reorder_list(head):
+    if not head or not head.next:
+        return head
+
+    # Step 1: Find the middle of the linked list
+    mid = find_middle(head)
+
+    # Step 2: Reverse the second half of the linked list
+    second_half = reverse_list(mid.next)
+    mid.next = None
+
+    # Step 3: Merge the two halves
+    return merge_lists(head, second_half)

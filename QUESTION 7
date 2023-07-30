@@ -1,0 +1,21 @@
+class ListNode:
+    def __init__(self, val=0, next=None):
+        self.val = val
+        self.next = next
+
+def next_greater_nodes(head):
+    stack = []
+    result = []
+    current = head
+    index = 0
+
+    while current:
+        while stack and stack[-1][1] < current.val:
+            _, prev_index = stack.pop()
+            result[prev_index] = current.val
+        stack.append((current.val, index))
+        result.append(0)
+        current = current.next
+        index += 1
+
+    return result

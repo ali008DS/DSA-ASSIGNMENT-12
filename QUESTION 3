@@ -1,0 +1,37 @@
+class ListNode:
+    def __init__(self, val=0, next=None, bottom=None):
+        self.val = val
+        self.next = next
+        self.bottom = bottom
+
+def merge_sort(head1, head2):
+    dummy = ListNode(-1)
+    tail = dummy
+
+    while head1 and head2:
+        if head1.val < head2.val:
+            tail.bottom = head1
+            head1 = head1.bottom
+        else:
+            tail.bottom = head2
+            head2 = head2.bottom
+        tail = tail.bottom
+
+    if head1:
+        tail.bottom = head1
+    if head2:
+        tail.bottom = head2
+
+    return dummy.bottom
+
+def flatten_linked_list(head):
+    if not head or not head.next:
+        return head
+
+    # Merge the bottom linked list of the current node with the flattened list of the next node
+    head.next = flatten_linked_list(head.next)
+
+    # Merge the current node's bottom linked list with the flattened list
+    head = merge_sort(head, head.next)
+
+    return head

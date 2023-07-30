@@ -1,0 +1,34 @@
+class ListNode:
+    def __init__(self, val=0, next=None, random=None):
+        self.val = val
+        self.next = next
+        self.random = random
+
+def copy_random_list(head):
+    if not head:
+        return None
+
+    # Step 1: Create copies of each node and insert them after the original node
+    current = head
+    while current:
+        new_node = ListNode(current.val)
+        new_node.next = current.next
+        current.next = new_node
+        current = new_node.next
+
+    # Step 2: Set the random pointers of the copied nodes
+    current = head
+    while current:
+        if current.random:
+            current.next.random = current.random.next
+        current = current.next.next
+
+    # Step 3: Separate the original list from the copied list
+    current = head
+    new_head = head.next
+    while current.next:
+        temp = current.next
+        current.next = current.next.next
+        current = temp
+
+    return new_head

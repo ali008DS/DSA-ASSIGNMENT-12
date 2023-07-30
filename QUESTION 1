@@ -1,0 +1,32 @@
+class ListNode:
+    def __init__(self, val=0, next=None):
+        self.val = val
+        self.next = next
+
+def remove_loop(head):
+    # Step 1: Detect the loop using Floyd's Cycle Detection Algorithm
+    slow, fast = head, head
+    while fast and fast.next:
+        slow = slow.next
+        fast = fast.next.next
+        if slow == fast:
+            break
+
+    # If there is no loop, return the head as it is
+    if not fast or not fast.next:
+        return head
+
+    # Step 2: Find the starting node of the loop
+    slow = head
+    while slow != fast:
+        slow = slow.next
+        fast = fast.next
+
+    # Step 3: Find the last node of the loop
+    while fast.next != slow:
+        fast = fast.next
+
+    # Step 4: Remove the loop
+    fast.next = None
+
+    return head

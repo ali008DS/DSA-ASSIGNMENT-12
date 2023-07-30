@@ -1,0 +1,35 @@
+class ListNode:
+    def __init__(self, val=0, next=None):
+        self.val = val
+        self.next = next
+
+def reverse_list(head):
+    prev = None
+    current = head
+    while current:
+        next_node = current.next
+        current.next = prev
+        prev = current
+        current = next_node
+    return prev
+
+def add_one(head):
+    head = reverse_list(head)
+    
+    current = head
+    carry = 1
+
+    while current:
+        sum_val = current.val + carry
+        carry = sum_val // 10
+        current.val = sum_val % 10
+        if not carry:
+            break
+        current = current.next
+
+    if carry:
+        new_node = ListNode(carry)
+        new_node.next = head
+        head = new_node
+
+    return reverse_list(head)
